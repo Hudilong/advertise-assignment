@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface ListingService {
     ListingDto create(ListingDto listingDto);
 
-    void update(UUID listingId, ListingDto listingDto);
+    void update(ListingDto listingDto);
 
     List<ListingDto> findAllByDealerId(UUID dealerId, State state);
 

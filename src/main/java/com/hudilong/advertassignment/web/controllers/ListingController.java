@@ -2,7 +2,6 @@ package com.hudilong.advertassignment.web.controllers;
 
 import com.hudilong.advertassignment.domain.enums.State;
 import com.hudilong.advertassignment.domain.services.ListingService;
-import com.hudilong.advertassignment.web.dtos.DealerDto;
 import com.hudilong.advertassignment.web.dtos.ListingDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +31,12 @@ public class ListingController {
     public ResponseEntity<List<ListingDto>> getListingFromDealerAndState(@PathVariable("dealerId") UUID dealerId, @PathVariable("state") State state) {
         List<ListingDto> listings = listingService.findAllByDealerId(dealerId, state);
         return new ResponseEntity<>(listings, HttpStatus.OK);
+    }
+
+    @PutMapping(path = "/")
+    public ResponseEntity<Void> updateListing(@RequestBody @Validated ListingDto listingDto) {
+        listingService.update(listingDto);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping(path = "/publish/{id}")
