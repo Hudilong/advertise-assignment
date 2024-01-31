@@ -3,6 +3,7 @@ package com.hudilong.advertassignment.domain.services.impl;
 import com.hudilong.advertassignment.domain.entities.ListingEntity;
 import com.hudilong.advertassignment.domain.enums.State;
 import com.hudilong.advertassignment.domain.services.ListingService;
+import com.hudilong.advertassignment.persistence.repositories.DealerRepository;
 import com.hudilong.advertassignment.persistence.repositories.ListingRepository;
 import com.hudilong.advertassignment.web.dtos.ListingDto;
 import com.hudilong.advertassignment.web.mappers.ListingMapper;
@@ -10,14 +11,17 @@ import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class ListingServiceImpl implements ListingService {
 
     private final ListingRepository listingRepository;
+    private final DealerRepository dealerRepository;
     private final ListingMapper listingMapper;
 
-    public ListingServiceImpl(ListingRepository listingRepository, ListingMapper listingMapper) {
+    public ListingServiceImpl(ListingRepository listingRepository, DealerRepository dealerRepository, ListingMapper listingMapper) {
         this.listingRepository = listingRepository;
+        this.dealerRepository = dealerRepository;
         this.listingMapper = listingMapper;
     }
 
@@ -40,7 +44,11 @@ public class ListingServiceImpl implements ListingService {
 
     @Override
     public List<ListingDto> findAllByDealerId(UUID dealerId, State state) {
-        return null;
+       if(!dealerRepository.existsById(dealerId)) {
+           throw new EntityNotFoundException("Dealer not found");
+       }
+       List<ListingEntity> entities = listingRepository.findAllListingsByDealerAndState(dealerId, state);
+       return entities.stream().map(listingMapper::mapEntityToDto).collect(Collectors.toList());
     }
 
     @Override
