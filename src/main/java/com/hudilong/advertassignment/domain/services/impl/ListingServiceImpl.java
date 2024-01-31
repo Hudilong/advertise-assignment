@@ -8,11 +8,13 @@ import com.hudilong.advertassignment.persistence.repositories.ListingRepository;
 import com.hudilong.advertassignment.web.dtos.ListingDto;
 import com.hudilong.advertassignment.web.mappers.ListingMapper;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Service
 public class ListingServiceImpl implements ListingService {
 
     private final ListingRepository listingRepository;
