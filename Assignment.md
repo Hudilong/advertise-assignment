@@ -1,4 +1,4 @@
-# SM360 Backend Tech Assignment
+# Company Backend Tech Assignment
 
 Implement a REST service for managing listings for online advertising service.
 
