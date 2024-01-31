@@ -6,23 +6,34 @@ import com.hudilong.advertassignment.persistence.repositories.DealerRepository;
 import com.hudilong.advertassignment.web.dtos.DealerDto;
 import com.hudilong.advertassignment.web.mappers.DealerMapper;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+@Service
 public class DealerServiceImpl implements DealerService {
 
     private DealerRepository dealerRepository;
     private DealerMapper dealerMapper;
 
     public DealerServiceImpl(DealerRepository dealerRepository, DealerMapper dealerMapper) {
-
+        this.dealerRepository = dealerRepository;
+        this.dealerMapper = dealerMapper;
     };
     @Override
     public DealerDto create(DealerDto dealerDto) {
         DealerEntity entity = dealerMapper.mapDtoToEntity(dealerDto);
         DealerEntity savedEntity = dealerRepository.save(entity);
         return dealerMapper.mapEntityToDto(savedEntity);
+    }
+
+    @Override
+    public List<DealerDto> findAll() {
+        List<DealerEntity> entities = dealerRepository.findAll();
+        return entities.stream().map(dealerMapper::mapEntityToDto).collect(Collectors.toList());
     }
 
     @Override
