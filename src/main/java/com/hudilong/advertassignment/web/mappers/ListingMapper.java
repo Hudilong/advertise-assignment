@@ -5,15 +5,19 @@ import com.hudilong.advertassignment.domain.entities.ListingEntity;
 import com.hudilong.advertassignment.persistence.repositories.DealerRepository;
 import com.hudilong.advertassignment.web.dtos.ListingDto;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+@Component
 public final class ListingMapper {
 
-    private DealerRepository dealerRepository;
+    private final DealerRepository dealerRepository;
+    private final DealerMapper dealerMapper;
 
-    public ListingMapper(DealerRepository dealerRepository) {
+    public ListingMapper(DealerRepository dealerRepository, DealerMapper dealerMapper) {
         this.dealerRepository = dealerRepository;
+        this.dealerMapper = dealerMapper;
     };
     public ListingEntity mapDtoToEntity(ListingDto listingDto) {
         DealerEntity dealerEntity = dealerRepository.findById(listingDto.dealer().id())
@@ -28,7 +32,7 @@ public final class ListingMapper {
     public ListingDto mapEntityToDto(ListingEntity listingEntity) {
         return new ListingDto(
                 listingEntity.getId(),
-                DealerMapper.mapEntityToDto(listingEntity.getDealer()),
+                dealerMapper.mapEntityToDto(listingEntity.getDealer()),
                 listingEntity.getVehicle(),
                 listingEntity.getPrice(),
                 listingEntity.getCreatedAt(),
