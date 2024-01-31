@@ -58,6 +58,7 @@ public class ListingServiceImpl implements ListingService {
         ListingEntity listingEntity = listingRepository.findById(listingId)
                 .orElseThrow(() -> new EntityNotFoundException("Listing not found"));
         listingEntity.setState(State.PUBLISHED);
+        listingRepository.save(listingEntity);
     }
 
     @Override
@@ -65,5 +66,6 @@ public class ListingServiceImpl implements ListingService {
         ListingEntity listingEntity = listingRepository.findById(listingId)
                 .orElseThrow(() -> new EntityNotFoundException("Listing not found"));
         listingEntity.setState(State.DRAFT);
+        listingRepository.save(listingEntity);
     }
 }
