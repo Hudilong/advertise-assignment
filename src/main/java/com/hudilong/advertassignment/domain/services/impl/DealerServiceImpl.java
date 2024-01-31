@@ -9,20 +9,19 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 public class DealerServiceImpl implements DealerService {
 
-    private DealerRepository dealerRepository;
-    private DealerMapper dealerMapper;
+    private final DealerRepository dealerRepository;
+    private final DealerMapper dealerMapper;
 
     public DealerServiceImpl(DealerRepository dealerRepository, DealerMapper dealerMapper) {
         this.dealerRepository = dealerRepository;
         this.dealerMapper = dealerMapper;
-    };
+    }
     @Override
     public DealerDto create(DealerDto dealerDto) {
         DealerEntity entity = dealerMapper.mapDtoToEntity(dealerDto);

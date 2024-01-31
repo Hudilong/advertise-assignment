@@ -1,6 +1,5 @@
 package com.hudilong.advertassignment.web.controllers;
 
-import com.hudilong.advertassignment.domain.entities.DealerEntity;
 import com.hudilong.advertassignment.domain.services.DealerService;
 import com.hudilong.advertassignment.web.dtos.DealerDto;
 import org.springframework.http.HttpStatus;
@@ -15,7 +14,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/advertising/dealers")
 public class DealerController {
 
-    private DealerService dealerService;
+    private final DealerService dealerService;
 
     public DealerController(DealerService dealerService) {
         this.dealerService = dealerService;

@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/advertising/listings")
 public class ListingController {
 
-    private ListingService listingService;
+    private final ListingService listingService;
 
     public ListingController(ListingService listingService) {
         this.listingService = listingService;

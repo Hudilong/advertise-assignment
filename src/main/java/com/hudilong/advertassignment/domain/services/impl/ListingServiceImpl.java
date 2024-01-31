@@ -38,7 +38,7 @@ public class ListingServiceImpl implements ListingService {
     public void update(ListingDto listingDto) {
         if(!listingRepository.existsById(listingDto.id())){
             throw new EntityNotFoundException("Listing not found");
-        };
+        }
         ListingEntity entity = listingMapper.mapDtoToEntity(listingDto);
         entity.setId(listingDto.id());
         listingRepository.save(entity);
