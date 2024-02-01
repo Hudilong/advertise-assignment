@@ -2,6 +2,7 @@ package com.hudilong.advertassignment.web.controllers;
 
 import com.hudilong.advertassignment.domain.services.DealerService;
 import com.hudilong.advertassignment.web.dtos.DealerDto;
+import com.hudilong.advertassignment.web.dtos.ErrorResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -11,7 +12,6 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -65,7 +65,7 @@ public class DealerController {
                     description = "Dealer was not found",
                     content = {@Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))})})
+                            schema = @Schema(implementation = ErrorResponseDto.class))})})
     public ResponseEntity<Void> deleteDealer(@PathVariable("id") UUID id) throws EntityNotFoundException {
         dealerService.delete(id);
         return ResponseEntity.noContent().build();

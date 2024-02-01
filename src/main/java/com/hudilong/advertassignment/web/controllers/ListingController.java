@@ -4,6 +4,7 @@ import com.hudilong.advertassignment.domain.enums.State;
 import com.hudilong.advertassignment.domain.exceptions.TierLimitReachedException;
 import com.hudilong.advertassignment.domain.services.ListingService;
 import com.hudilong.advertassignment.web.dtos.DealerDto;
+import com.hudilong.advertassignment.web.dtos.ErrorResponseDto;
 import com.hudilong.advertassignment.web.dtos.ListingDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -14,7 +15,6 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -57,7 +57,7 @@ public class ListingController {
                     description = "Dealer was not found",
                     content = {@Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))})})
+                            schema = @Schema(implementation = ErrorResponseDto.class))})})
     public ResponseEntity<List<ListingDto>> getListingFromDealerAndState(@PathVariable("dealerId") UUID dealerId, @PathVariable("state") State state) throws EntityNotFoundException {
         List<ListingDto> listings = listingService.findAllByDealerId(dealerId, state);
         return new ResponseEntity<>(listings, HttpStatus.OK);
@@ -74,7 +74,7 @@ public class ListingController {
                     description = "Listing was not found",
                     content = {@Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))})})
+                            schema = @Schema(implementation = ErrorResponseDto.class))})})
     public ResponseEntity<Void> updateListing(@RequestBody @Validated ListingDto listingDto) throws EntityNotFoundException {
         listingService.update(listingDto);
         return ResponseEntity.noContent().build();
@@ -91,13 +91,13 @@ public class ListingController {
                     description = "Listing was not found",
                     content = {@Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))}),
+                            schema = @Schema(implementation = ErrorResponseDto.class))}),
             @ApiResponse(
                     responseCode = "403",
                     description = "Dealer's tier limit is already reached",
                     content = {@Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))})})
+                            schema = @Schema(implementation = ErrorResponseDto.class))})})
     public ResponseEntity<Void> publishListing(@PathVariable("id") UUID id) throws EntityNotFoundException, TierLimitReachedException {
         listingService.publish(id);
         return ResponseEntity.noContent().build();
@@ -114,7 +114,7 @@ public class ListingController {
                     description = "Listing was not found",
                     content = {@Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))})})
+                            schema = @Schema(implementation = ErrorResponseDto.class))})})
     public ResponseEntity<Void> hideListing(@PathVariable("id") UUID id) throws EntityNotFoundException {
         listingService.hide(id);
         return ResponseEntity.noContent().build();
