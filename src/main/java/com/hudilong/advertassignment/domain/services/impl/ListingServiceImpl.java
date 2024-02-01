@@ -36,18 +36,21 @@ public class ListingServiceImpl implements ListingService {
 
     @Override
     public void update(ListingDto listingDto) {
-        if(!listingRepository.existsById(listingDto.id())){
-            throw new EntityNotFoundException("Listing not found");
+        UUID listingId = listingDto.id();
+        if(!listingRepository.existsById(listingId)){
+            throw new EntityNotFoundException(
+                    String.join(" ", "Listing with id:", listingId.toString(), "not found"));
         }
         ListingEntity entity = listingMapper.mapDtoToEntity(listingDto);
-        entity.setId(listingDto.id());
+        entity.setId(listingId);
         listingRepository.save(entity);
     }
 
     @Override
     public List<ListingDto> findAllByDealerId(UUID dealerId, State state) {
        if(!dealerRepository.existsById(dealerId)) {
-           throw new EntityNotFoundException("Dealer not found");
+           throw new EntityNotFoundException(
+                   String.join(" ", "Dealer with id:", dealerId.toString(), "not found"));
        }
        List<ListingEntity> entities = listingRepository.findAllListingsByDealerAndState(dealerId, state);
        return entities.stream().map(listingMapper::mapEntityToDto).collect(Collectors.toList());
@@ -56,7 +59,8 @@ public class ListingServiceImpl implements ListingService {
     @Override
     public void publish(UUID listingId) {
         ListingEntity listingEntity = listingRepository.findById(listingId)
-                .orElseThrow(() -> new EntityNotFoundException("Listing not found"));
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.join(" ", "Listing with id:", listingId.toString(), "not found")));
         listingEntity.setState(State.PUBLISHED);
         listingRepository.save(listingEntity);
     }
@@ -64,7 +68,8 @@ public class ListingServiceImpl implements ListingService {
     @Override
     public void hide(UUID listingId) {
         ListingEntity listingEntity = listingRepository.findById(listingId)
-                .orElseThrow(() -> new EntityNotFoundException("Listing not found"));
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.join(" ", "Listing with id:", listingId.toString(), "not found")));
         listingEntity.setState(State.DRAFT);
         listingRepository.save(listingEntity);
     }

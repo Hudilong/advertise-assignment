@@ -38,7 +38,8 @@ public class DealerServiceImpl implements DealerService {
     @Override
     public DealerDto findById(UUID dealerId) {
         DealerEntity entity = dealerRepository.findById(dealerId)
-                .orElseThrow(() -> new EntityNotFoundException("Dealer not found"));
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.join(" ", "Dealer with id:", dealerId.toString(), "not found")));
         return dealerMapper.mapEntityToDto(entity);
     }
 
