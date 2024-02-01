@@ -6,10 +6,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,9 +42,7 @@ public class DealerController {
 
 
     @GetMapping(path = "/")
-    @Operation(
-            summary = "Get all dealers",
-            description = "Retrieves a list of all dealers")
+    @Operation(description = "Retrieves a list of all dealers")
     @ApiResponse(
             responseCode = "200",
             description = "Successfully retrieved list of dealers",
@@ -55,21 +55,24 @@ public class DealerController {
     }
 
     @DeleteMapping(path = "/{id}")
-    @Operation(
-            summary = "Delete a dealer",
-            description = "Delete a dealer by id")
-    @ApiResponse(
-            responseCode = "204",
-            description = "Successfully deleted dealer")
+    @Operation(description = "Delete a dealer by id")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Successfully deleted dealer"),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Dealer was not found",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))})})
     public ResponseEntity<Void> deleteDealer(@PathVariable("id") UUID id) throws EntityNotFoundException {
         dealerService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping(path = "/")
-    @Operation(
-            summary = "Delete all dealers",
-            description = "Delete all the dealer")
+    @Operation(description = "Delete all the dealer")
     @ApiResponse(
             responseCode = "204",
             description = "Successfully deleted all dealers")
