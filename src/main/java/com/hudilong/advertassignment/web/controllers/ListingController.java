@@ -76,8 +76,14 @@ public class ListingController {
                     description = "Listing was not found",
                     content = {@Content(
                             mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponseDto.class))}),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Dealer's tier limit is already reached",
+                    content = {@Content(
+                            mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponseDto.class))})})
-    public ResponseEntity<Void> updateListing(@RequestBody @Validated ListingDto listingDto) throws EntityNotFoundException {
+    public ResponseEntity<Void> updateListing(@RequestBody @Validated ListingDto listingDto) throws EntityNotFoundException, TierLimitReachedException {
         listingService.update(listingDto);
         return ResponseEntity.noContent().build();
     }
