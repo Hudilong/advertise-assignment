@@ -58,7 +58,9 @@ public class ListingController {
                     content = {@Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponseDto.class))})})
-    public ResponseEntity<List<ListingDto>> getListingFromDealerAndState(@PathVariable("dealerId") UUID dealerId, @PathVariable("state") State state) throws EntityNotFoundException {
+    public ResponseEntity<List<ListingDto>> getListingFromDealerAndState(
+            @PathVariable("dealerId") UUID dealerId,
+            @PathVariable("state") State state) throws EntityNotFoundException {
         List<ListingDto> listings = listingService.findAllByDealerId(dealerId, state);
         return new ResponseEntity<>(listings, HttpStatus.OK);
     }
