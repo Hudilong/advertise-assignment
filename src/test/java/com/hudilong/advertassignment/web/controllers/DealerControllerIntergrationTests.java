@@ -26,9 +26,9 @@ public class DealerControllerIntergrationTests {
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public DealerControllerIntergrationTests(MockMvc mockMvc, ObjectMapper objectMapper) {
+    public DealerControllerIntergrationTests(MockMvc mockMvc) {
         this.mockMvc = mockMvc;
-        this.objectMapper = objectMapper;
+        this.objectMapper = new ObjectMapper();
     }
 
     @Test

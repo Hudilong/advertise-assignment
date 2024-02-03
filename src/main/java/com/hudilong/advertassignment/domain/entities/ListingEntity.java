@@ -1,6 +1,10 @@
 package com.hudilong.advertassignment.domain.entities;
 
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.hudilong.advertassignment.domain.enums.State;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,6 +33,8 @@ public class ListingEntity {
     private BigDecimal price;
 
     @Builder.Default
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Builder.Default
